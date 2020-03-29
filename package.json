@@ -1,0 +1,24 @@
+{
+  "name": "DamnBot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drunkfromcoffee/DamnBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drunkfromcoffee/DamnBot/issues"
+  },
+  "homepage": "https://github.com/drunkfromcoffee/DamnBot#readme",
+  "dependencies": {
+    "discord.js": "^12.1.1",
+    "fs-readdir-recursive": "^1.1.0"
+  }
+}
