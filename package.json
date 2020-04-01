@@ -19,6 +19,7 @@
   "homepage": "https://github.com/drunkfromcoffee/DamnBot#readme",
   "dependencies": {
     "discord.js": "^12.1.1",
-    "fs-readdir-recursive": "^1.1.0"
+    "fs-readdir-recursive": "^1.1.0",
+    "random-puppy": "^1.1.0"
   }
 }

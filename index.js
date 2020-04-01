@@ -1,14 +1,13 @@
 const discord           = require("discord.js");
 const client            = new discord.Client();
 client.commands         = new discord.Collection();
-const { token, prefix } = require("./config.json");
+client.config           = require("./config.json");
 const read              = require("fs-readdir-recursive");
+const fs                = require("fs");
 
 // Load commands from ./commands directory
 
-const files = read("./commands");
-
-const command_files = files.filter(file => file.endsWith(".js"));
+const command_files = read("./commands").filter(file => file.endsWith(".js"));
 
 for (let i = 0; i < command_files.length; i++) {
   const command = require(`./commands/${command_files[i]}`);
@@ -17,26 +16,13 @@ for (let i = 0; i < command_files.length; i++) {
   client.commands.set(command.name, command);
 }
 
+const events = fs.readdirSync("./events/").filter(file => file.endsWith(".js"));
 
-client.on("message", (message) => {
-  if(!message.content.startsWith(prefix) || message.author.bot) return;
+for (let i = 0; i < events.length; i++) {
+  const event = require(`./events/${events[i]}`);
 
-  const args    = message.content.slice(prefix.length).split(" ");
-  const command_name = args.shift().toLowerCase();
+  console.log(`Loadead event ${event.event}`);
+  client.on(event.event, event.execute.bind(null, client));
+}
 
-  if(!client.commands.has(command_name)) return;
-
-  const command = client.commands.get(command_name);
-
-  if (command.args && !args.length) {
-    return message.channel.send(command.usage);
-  }
-
-  try {
-    command.execute(client, message, args);
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-client.login(token);
+client.login(client.config.token);

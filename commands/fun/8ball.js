@@ -1,5 +1,6 @@
 module.exports = {
-  name : "8ball",
+  name: "8ball",
+  category: "Fun",
   description: "Just 8ball",
   usage: "<prefix>8ball [question?]",
   execute(client, message, args) {
