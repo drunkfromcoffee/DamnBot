@@ -1,7 +1,7 @@
 module.exports = {
     name:"setavatar",
     category:"Bot Owner",
-    usage:"```<prefix>setavatar <linkToAvatar>```",
+    usage:"<prefix>setavatar <linkToAvatar>",
     args:true,
     execute(client, message, args) {
         client.user.setAvatar(args.join(" ")).then(() => {

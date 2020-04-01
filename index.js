@@ -4,6 +4,7 @@ client.commands         = new discord.Collection();
 client.config           = require("./config.json");
 const read              = require("fs-readdir-recursive");
 const fs                = require("fs");
+client.cooldowns        = new discord.Collection();
 
 // Load commands from ./commands directory
 
@@ -21,7 +22,7 @@ const events = fs.readdirSync("./events/").filter(file => file.endsWith(".js"));
 for (let i = 0; i < events.length; i++) {
   const event = require(`./events/${events[i]}`);
 
-  console.log(`Loadead event ${event.event}`);
+  console.log(`Loaded event ${event.event}`);
   client.on(event.event, event.execute.bind(null, client));
 }
 
