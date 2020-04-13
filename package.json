@@ -20,6 +20,6 @@
   "dependencies": {
     "discord.js": "^12.1.1",
     "fs-readdir-recursive": "^1.1.0",
-    "random-puppy": "^1.1.0"
+    "node-fetch": "^2.6.0"
   }
 }

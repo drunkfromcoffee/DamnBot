@@ -1,37 +1,42 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
 	name: "help",
 	usage: "<prefix>help [commandname]",
 	execute(client, message, args) {
-		let data = [];
+		const embed = new MessageEmbed();
 
 		if(!args.length) {
-			data.push("Here's a list with all my commands:");
-			data.push(client.commands.map(command => "> " +command.name + "\n Usage: ``"+ command.usage.replace("<prefix>", client.config.prefix) + "``").join("\n"));
-			data.push(`You can use ${client.config.prefix}help [commandname] to get more info about a specific command!`);
-			return message.channel.send(data, { split: true});
+			embed.setTitle("Help");
+			client.commands.forEach(command => {
+				if (command.hidden) return;
+				embed.addField(command.name, "" + command.usage.replace("<prefix>", client.config.prefix));
+			});
+			embed.setFooter(`You can use ${client.config.prefix}help [command] to get more info about a command.`);
+			return message.channel.send(embed);
 		}
 
 		const command_name = args[0].toLowerCase();
 		const command = client.commands.get(command_name) || client.commands.find(cmd => {
-            if (cmd.aliases == undefined) return false;
+            if (cmd.aliases === undefined) return false;
             else {
                 return cmd.aliases.includes(command_name);
             }
         });
 
-		if (!command) {
+		if (!command || command.hidden) {
 			return message.reply('that\'s not a valid command!');
 		}
 
-		data.push(`**Name:** ${command.name}`);
+		embed.setTitle(`**Name:** ${command.name}`);
 
-		if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
-		if (command.description) data.push(`**Description:** ${command.description}`);
-		if (command.usage) data.push(`**Usage:** ${client.config.prefix}${command.name} ${command.usage}`);
+		if (command.aliases) embed.addField("**Aliases:**", command.aliases.join(', '));
+		if (command.description) embed.addField("**Description:**", command.description);
+		if (command.usage) embed.addField("**Usage:**", command.usage.replace("<prefix>", client.config.prefix));
 
-		data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
+		embed.addField("**Cooldown:**", `${command.cooldown || 3} second(s)`);
 
-		message.channel.send(data, { split: true });
+		message.channel.send(embed);
 
 	}
-}
+};

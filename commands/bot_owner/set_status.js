@@ -8,4 +8,4 @@ module.exports = {
 			message.channel.send("Done!")
 		});
 	}
-}
+};

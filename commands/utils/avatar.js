@@ -8,16 +8,20 @@ module.exports = {
 
   execute(client, message, args) {
     let avatar_embed = new MessageEmbed();
-    if (!message.mentions.users.size) {
-      avatar_embed = avatar_embed.setFooter("You can ping a user to get his(her) avatar");
-      var user = message.author;
+    let user;
+    if (!message.mentions.users.size && !args.length) {
+      avatar_embed.setFooter("You can ping a user to get his(her) avatar");
+      user = message.author;
+    } else if (message.mentions.users.size) {
+      user = message.mentions.users.first();
     } else {
-      var user = message.mentions.users.first();
+      user = message.guild.members.cache.find(member => member.displayName.toLowerCase().includes(args.join(" ").toLowerCase()) || member.user.username.toLowerCase().includes((args.join(" ")).toLowerCase()));
+      if (!user) return message.channel.send("No user found with that name, please ping somenone.");
+      else user = user.user;
     }
 
-    avatar_embed = avatar_embed
-      .setTitle(`${user.username}'s avatar`)
-      .setImage(`${user.displayAvatarURL()}`);
+    avatar_embed.setTitle(`${user.username}'s avatar`)
+        .setImage(`${user.displayAvatarURL({format:"png"})}`);
     message.channel.send(avatar_embed);
   }
-}
+};
