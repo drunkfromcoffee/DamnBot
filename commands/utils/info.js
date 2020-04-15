@@ -25,7 +25,6 @@ module.exports = {
         info_embed.addField(`Registered account on:`, new Date(user.createdAt).toUTCString());
         info_embed.addField(`Joined this server on:`, new Date(member.joinedAt).toUTCString());
         info_embed.addField(`Roles`, member.roles.cache.filter(role => !role.name.includes("everyone") && !role.managed).map(role => role).join(", "));
-
         message.channel.send(info_embed);
     }
 };

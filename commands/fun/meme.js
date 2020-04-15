@@ -10,7 +10,7 @@ module.exports = {
     execute: function (client, message, args) {
         const subreddits = ["dankmemes", "memes", "meme", "DeepFriedMemes", "DarkHumorAndMemes", "AccidentalRacism", "ComedyHeaven", "HistoryMemes", "HolUp"];
         const subreddit = subreddits[Math.floor(Math.random() * subreddits.length)];
-        fetch(`https://reddit.com/r/${subreddit}.json?limit=200&sort=top&t=today`).then(res => res.json()).then(res => {
+        fetch(`https://reddit.com/r/${subreddit}.json?limit=100&sort=top&t=today`).then(res => res.json()).then(res => {
             const body = res;
             const allowed = message.channel.nsfw ? body.data.children : body.data.children.filter(post => !post.data.over_18 && post.data.url);
             if (!allowed.length) return message.channel.send("It seems that we are out of memes. Try again latter.");
